@@ -11,10 +11,9 @@ function Form (props) {
     fetchData();
   };
   const fetchData = () => {
-    fetch(`https://api.github.com/users/${userName}`).then(resp => {
-      resp.json().then(data => {
-        console.log(data);
-        props.setData(data);
+    fetch(`https://api.github.com/users/${userName}`)
+    .then(resp => { resp.json()
+      .then((data) => { props.updata(data);
       })
     })
   }
@@ -43,7 +42,7 @@ function CardList (props) {
   return(
     <div>
       {/* <Card {...props}/> */}
-      {props.data !== null ? props.data.map(item => <Card {...item}/>) : 'null'}
+      {props.data.map(item => <Card {...item}/>)}
     </div>
   )
 }
@@ -52,8 +51,7 @@ function Card (props) {
   const data = props;
   return (
     <div>
-      <p>sadf</p>
-      <img src={data.avatar_url}></img>
+      {/* <img src={data.avatar_url}></img> */}
       {/* <img src='https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'></img> */}
       <div style={{display: 'inline-block', marginLeft: 10}}>
         <div style={{fontSize: '125%'}}>{data.name}</div>
@@ -66,9 +64,13 @@ function Card (props) {
 
 function App (props) {
   const [data, setData] = useState([]);
+  const updata = (newData) => {
+    setData([...data, newData],
+    )
+  }
   return (
     <div>
-      <Form setData={setData}/>
+      <Form updata={updata} />
       <CardList data={data}/>
     </div>
   )
